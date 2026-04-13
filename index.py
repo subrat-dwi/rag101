@@ -1,7 +1,7 @@
 import pathlib
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_qdrant import QdrantVectorStore
 from dotenv import load_dotenv
 
@@ -21,9 +21,9 @@ def split_documents(documents, chunk_size=1000, chunk_overlap=200):
     return chunks
 
 def embed_documents(chunks):
-    # embed the chunks using OpenAIEmbeddings
-    embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-large",
+    # embed the chunks using HuggingFaceEmbeddings
+    embeddings = HuggingFaceEmbeddings(
+        model_name="all-MiniLM-L6-v2",
     )
 
     # create a vector store using QdrantVectorStore and store the embedded chunks
@@ -33,3 +33,16 @@ def embed_documents(chunks):
         url= "http://localhost:6333",
         collection_name= "rag-learning"
     )
+    return vector_store
+
+
+def index():
+    file_path = "data_files/The_Courage_to_be_Disliked_How_to_Change_Your_Life_and_Achieve_Real.pdf"
+    documents = load_pdf(file_path)
+    # print(f"Loaded {len(documents)} documents from the PDF.")
+
+    chunks = split_documents(documents)
+    # print(f"Split the documents into {len(chunks)} chunks.")
+
+    embed_documents(chunks)
+    # print("Embedded the chunks and stored them in the vector store.")

@@ -1,15 +1,16 @@
-from index import load_pdf, split_documents, embed_documents
+from index import index
+from retrieve import generate_response
 
 def main():
-    file_path = "data_files/The_Courage_to_be_Disliked_How_to_Change_Your_Life_and_Achieve_Real.pdf"
-    documents = load_pdf(file_path)
-    print(f"Loaded {len(documents)} documents from the PDF.")
 
-    chunks = split_documents(documents)
-    print(f"Split the documents into {len(chunks)} chunks.")
-
-    embed_documents(chunks)
-    print("Embedded the chunks and stored them in the vector store.")
+    index()
+    
+    while True:
+        query = input("Me: ")
+        if query.lower() == "exit":
+            break
+        response = generate_response(query)
+        print(f"Cutie: {response.choices[0].message.content}\n")
 
 
 if __name__ == "__main__":
