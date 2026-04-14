@@ -1,6 +1,9 @@
+from dotenv import load_dotenv
 from langchain_qdrant import QdrantVectorStore
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from groq import Groq
+
+load_dotenv()
 
 # Initialize the Groq client and set up the embedding and vector store
 client = Groq()

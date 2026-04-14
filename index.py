@@ -1,7 +1,7 @@
 import pathlib
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_qdrant import QdrantVectorStore
 from dotenv import load_dotenv
 
@@ -46,3 +46,6 @@ def index():
 
     embed_documents(chunks)
     # print("Embedded the chunks and stored them in the vector store.")
+
+if __name__ == "__main__":
+    index()
